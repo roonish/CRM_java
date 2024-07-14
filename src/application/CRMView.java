@@ -70,35 +70,37 @@
 ////    }
 //}
 
-
 package application;
 
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class CRMView extends VBox {
+public class CRMView extends HBox {
     public CRMView(Member model, Runnable actionHandler) {
         VBox menu = new VBox();
         menu.setStyle("-fx-background-color: blue;");
         menu.setFillWidth(true);
+        menu.setSpacing(10);  // Add spacing between buttons
+        menu.setPadding(new Insets(10)); // Add padding around the menu
 
         Button backBtn = new Button("Left Arrow");
-        backBtn.setPrefWidth(100);
+        backBtn.setMaxWidth(Double.MAX_VALUE); // Ensure the button expands to fill the space
         backBtn.getStyleClass().add("custom-menu-button");
 
         Button infoBtn = new Button("Info");
-        infoBtn.setPrefWidth(100);
+        infoBtn.setMaxWidth(Double.MAX_VALUE);
         infoBtn.getStyleClass().add("custom-menu-button");
 
         Button newBtn = new Button("New");
-        newBtn.setPrefWidth(100);
+        newBtn.setMaxWidth(Double.MAX_VALUE);
         newBtn.getStyleClass().add("custom-menu-button");
 
         Button openBtn = new Button("Open");
-        openBtn.setPrefWidth(100);
+        openBtn.setMaxWidth(Double.MAX_VALUE);
         openBtn.getStyleClass().add("custom-menu-button");
 
         menu.getChildren().addAll(backBtn, infoBtn, newBtn, openBtn);
@@ -109,13 +111,12 @@ public class CRMView extends VBox {
         VBox.setVgrow(newBtn, Priority.ALWAYS);
         VBox.setVgrow(openBtn, Priority.ALWAYS);
 
-        HBox root = new HBox();
-        root.getChildren().add(menu);
-        
-        Scene scene = new Scene(root, 500, 400);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        this.getChildren().add(menu); // Add the menu to the left side
 
-        getChildren().add(root);
+        // Add a placeholder to fill the remaining horizontal space
+        Region placeholder = new Region();
+        HBox.setHgrow(placeholder, Priority.ALWAYS);
+        this.getChildren().add(placeholder);
     }
 }
 
