@@ -31,4 +31,3 @@ public class Member {
         return action.get();
     }
 }
-
