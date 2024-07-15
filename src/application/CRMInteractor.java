@@ -23,4 +23,14 @@ public class CRMInteractor {
         members.add(member);
     }
 
+    public void updateMember(Member oldMember, Member updatedMember) {
+        int index = members.indexOf(oldMember);
+        if (index != -1) {
+            members.set(index, updatedMember);
+        }
+    }
+
+    public void deleteMember(Member member) {
+        members.remove(member);
+    }
 }
