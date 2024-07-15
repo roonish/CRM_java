@@ -2,9 +2,26 @@
     -fx-background-color: blue;
     -fx-text-fill: white;
     -fx-border: none;
-    -fx-padding: 10px; /* Add padding inside the button */
+    -fx-padding: 10px;
+    -fx-font-size: 14px; /* Adjust font size */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-cursor: hand; /* Pointer cursor on hover */
 }
 
 .custom-menu-button:hover {
     -fx-background-color: lightblue;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-alternate-row-fill-visible: true;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: lightblue;
+}
+
+.table-view .column-header {
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
 }
