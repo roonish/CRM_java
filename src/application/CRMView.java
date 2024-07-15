@@ -1,121 +1,124 @@
-//package application;
-//
-//import javafx.animation.FadeTransition;
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.control.Menu;
-//import javafx.scene.control.MenuBar;
-//import javafx.scene.control.MenuItem;
-//import javafx.scene.control.TableColumn;
-//import javafx.scene.control.TableView;
-//import javafx.scene.control.TextField;
-//import javafx.scene.control.cell.PropertyValueFactory;
-//import javafx.scene.layout.AnchorPane;
-//import javafx.scene.layout.HBox;
-//import javafx.scene.layout.Priority;
-//import javafx.scene.layout.StackPane;
-//import javafx.scene.layout.VBox;
-//import javafx.stage.Stage;
-//import javafx.util.Duration;
-//
-//public class CRMView extends VBox {
-//    private TableView<Member> table;
-//
-//    public CRMView(Member model, Runnable actionHandler) {
-//    	
-//    	
-//    	
-////    	 TextField numberTF = new TextField();
-//////         numberTF.textProperty().bindBidirectional(model.numberProperty());
-////         HBox dataBox = new HBox(4, new Label("Enter a number: "), numberTF);
-////         Button button = new Button("Add 5");
-////         button.setOnAction(evt -> actionHandler.run());
-//////         button.disableProperty().bind(model.moreAllowedProperty().not());
-////         getChildren().addAll(dataBox, button);
-//    	
-//    	
-////        table = new TableView<>();
-////        TableColumn<Member, String> nameColumn = new TableColumn<>("Name");
-////        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-////
-////        TableColumn<Member, String> mobileColumn = new TableColumn<>("Mobile");
-////        mobileColumn.setCellValueFactory(new PropertyValueFactory<>("mobile"));
-////
-////        TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
-////        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-////
-////        TableColumn<Member, String> actionColumn = new TableColumn<>("Action");
-////        actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
-////
-////        table.getColumns().addAll(nameColumn, mobileColumn, emailColumn, actionColumn);
-//    }
-//
-////    public void start(Stage primaryStage) {
-////        primaryStage.setTitle("CRM Application");
-////
-////        VBox vbox = new VBox(table);
-////        Scene scene = new Scene(vbox);
-////
-////        primaryStage.setScene(scene);
-////        primaryStage.show();
-////    }
-////
-////    public void setTableData(ObservableList<Member> data) {
-////        table.setItems(data);
-////    }
-//}
-
-
 package application;
 
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
-public class CRMView extends VBox {
-    public CRMView(Member model, Runnable actionHandler) {
+public class CRMView extends HBox {
+    private TableView<Member> table;
+    private Button addMemberButton;
+    private Button updateMemberButton;
+    private Button deleteMemberButton;
+
+    public CRMView() {
+        // Left side menu
         VBox menu = new VBox();
         menu.setStyle("-fx-background-color: blue;");
         menu.setFillWidth(true);
+        menu.setSpacing(10);  // Add spacing between buttons
+        menu.setPadding(new Insets(10)); // Add padding around the menu
 
-        Button backBtn = new Button("Left Arrow");
-        backBtn.setPrefWidth(100);
-        backBtn.getStyleClass().add("custom-menu-button");
+        Button profileBtn = new Button("Profile");
+        profileBtn.setMaxWidth(Double.MAX_VALUE); // Ensure the button expands to fill the space
+        profileBtn.getStyleClass().add("custom-menu-button");
 
-        Button infoBtn = new Button("Info");
-        infoBtn.setPrefWidth(100);
-        infoBtn.getStyleClass().add("custom-menu-button");
+        Button recordsBtn = new Button("Records");
+        recordsBtn.setMaxWidth(Double.MAX_VALUE);
+        recordsBtn.getStyleClass().add("custom-menu-button");
 
-        Button newBtn = new Button("New");
-        newBtn.setPrefWidth(100);
-        newBtn.getStyleClass().add("custom-menu-button");
+        Button logsBtn = new Button("Logs");
+        logsBtn.setMaxWidth(Double.MAX_VALUE);
+        logsBtn.getStyleClass().add("custom-menu-button");
 
         Button openBtn = new Button("Open");
-        openBtn.setPrefWidth(100);
+        openBtn.setMaxWidth(Double.MAX_VALUE);
         openBtn.getStyleClass().add("custom-menu-button");
 
-        menu.getChildren().addAll(backBtn, infoBtn, newBtn, openBtn);
+        menu.getChildren().addAll(profileBtn, recordsBtn, logsBtn, openBtn);
 
         // Ensure buttons are evenly spaced
-        VBox.setVgrow(backBtn, Priority.ALWAYS);
-        VBox.setVgrow(infoBtn, Priority.ALWAYS);
-        VBox.setVgrow(newBtn, Priority.ALWAYS);
+        VBox.setVgrow(profileBtn, Priority.ALWAYS);
+        VBox.setVgrow(recordsBtn, Priority.ALWAYS);
+        VBox.setVgrow(logsBtn, Priority.ALWAYS);
         VBox.setVgrow(openBtn, Priority.ALWAYS);
 
-        HBox root = new HBox();
-        root.getChildren().add(menu);
-        
-        Scene scene = new Scene(root, 500, 400);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        this.getChildren().add(menu); // Add the menu to the left side
 
-        getChildren().add(root);
+        // Right side content
+        VBox rightSide = new VBox();
+        rightSide.setSpacing(10);
+        rightSide.setPadding(new Insets(10));
+        rightSide.setStyle("-fx-background-color: lightgray;");
+
+        // Title
+        final Text titleText = new Text("Members");
+        titleText.setFill(Color.BLACK);
+        titleText.setStyle("-fx-font: 20 arial;");
+
+        // Create buttons
+        addMemberButton = new Button("Add Member");
+        updateMemberButton = new Button("Update members");
+        deleteMemberButton = new Button("Delete members");
+
+        // Create HBox to hold the buttons
+        HBox buttonBox = new HBox(10); // Spacing between buttons
+        buttonBox.getChildren().addAll(titleText, addMemberButton, updateMemberButton, deleteMemberButton);
+
+        rightSide.getChildren().add(buttonBox);
+
+        // Create and add the table
+        table = new TableView<>();
+
+        // Define columns (without logic)
+        TableColumn<Member, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Member, String> mobileColumn = new TableColumn<>("Mobile");
+        TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
+        TableColumn<Member, String> roleColumn = new TableColumn<>("Role");
+
+        table.getColumns().addAll(nameColumn, mobileColumn, emailColumn, roleColumn);
+
+        rightSide.getChildren().add(table);
+
+        // Add right side content to the HBox
+        this.getChildren().add(rightSide);
+        HBox.setHgrow(rightSide, Priority.ALWAYS);
+    }
+
+    public TableView<Member> getTable() {
+        return table;
+    }
+
+    public Button getAddMemberButton() {
+        return addMemberButton;
+    }
+
+    public Button getUpdateMemberButton() {
+        return updateMemberButton;
+    }
+
+    public Button getDeleteMemberButton() {
+        return deleteMemberButton;
+    }
+
+    public TableColumn<Member, String> getNameColumn() {
+        return (TableColumn<Member, String>) table.getColumns().get(0);
+    }
+
+    public TableColumn<Member, String> getMobileColumn() {
+        return (TableColumn<Member, String>) table.getColumns().get(1);
+    }
+
+    public TableColumn<Member, String> getEmailColumn() {
+        return (TableColumn<Member, String>) table.getColumns().get(2);
+    }
+
+    public TableColumn<Member, String> getRoleColumn() {
+        return (TableColumn<Member, String>) table.getColumns().get(3);
     }
 }
-

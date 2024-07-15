@@ -6,13 +6,13 @@ public class Member {
     private final SimpleStringProperty name;
     private final SimpleStringProperty mobile;
     private final SimpleStringProperty email;
-    private final SimpleStringProperty action;
+    private final SimpleStringProperty role;
 
-    public Member(String name, String mobile, String email) {
+    public Member(String name, String mobile, String email,String role) {
         this.name = new SimpleStringProperty(name);
         this.mobile = new SimpleStringProperty(mobile);
         this.email = new SimpleStringProperty(email);
-        this.action = new SimpleStringProperty("Block");
+        this.role = new SimpleStringProperty(role);
     }
 
     public String getName() {
@@ -27,7 +27,7 @@ public class Member {
         return email.get();
     }
 
-    public String getAction() {
-        return action.get();
+    public String getRole() {
+        return role.get();
     }
 }
