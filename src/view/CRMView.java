@@ -1,4 +1,4 @@
-package application;
+package view;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -9,8 +9,14 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import model.Member;
 
 public class CRMView extends HBox {
+    private VBox contentPane;
+    private Button profileButton;
+    private Button recordsButton;
+    private Button logsButton;
+    private Button openButton;
     private TableView<Member> table;
     private Button addMemberButton;
     private Button updateMemberButton;
@@ -24,37 +30,37 @@ public class CRMView extends HBox {
         menu.setSpacing(10);  // Add spacing between buttons
         menu.setPadding(new Insets(10)); // Add padding around the menu
 
-        Button profileBtn = new Button("Profile");
-        profileBtn.setMaxWidth(Double.MAX_VALUE); // Ensure the button expands to fill the space
-        profileBtn.getStyleClass().add("custom-menu-button");
+        profileButton = new Button("Profile");
+        profileButton.setMaxWidth(Double.MAX_VALUE); // Ensure the button expands to fill the space
+        profileButton.getStyleClass().add("custom-menu-button");
 
-        Button recordsBtn = new Button("Records");
-        recordsBtn.setMaxWidth(Double.MAX_VALUE);
-        recordsBtn.getStyleClass().add("custom-menu-button");
+        recordsButton = new Button("Records");
+        recordsButton.setMaxWidth(Double.MAX_VALUE);
+        recordsButton.getStyleClass().add("custom-menu-button");
 
-        Button logsBtn = new Button("Logs");
-        logsBtn.setMaxWidth(Double.MAX_VALUE);
-        logsBtn.getStyleClass().add("custom-menu-button");
+        logsButton = new Button("Logs");
+        logsButton.setMaxWidth(Double.MAX_VALUE);
+        logsButton.getStyleClass().add("custom-menu-button");
 
-        Button openBtn = new Button("Open");
-        openBtn.setMaxWidth(Double.MAX_VALUE);
-        openBtn.getStyleClass().add("custom-menu-button");
+        openButton = new Button("Open");
+        openButton.setMaxWidth(Double.MAX_VALUE);
+        openButton.getStyleClass().add("custom-menu-button");
 
-        menu.getChildren().addAll(profileBtn, recordsBtn, logsBtn, openBtn);
+        menu.getChildren().addAll(profileButton, recordsButton, logsButton, openButton);
 
         // Ensure buttons are evenly spaced
-        VBox.setVgrow(profileBtn, Priority.ALWAYS);
-        VBox.setVgrow(recordsBtn, Priority.ALWAYS);
-        VBox.setVgrow(logsBtn, Priority.ALWAYS);
-        VBox.setVgrow(openBtn, Priority.ALWAYS);
+        VBox.setVgrow(profileButton, Priority.ALWAYS);
+        VBox.setVgrow(recordsButton, Priority.ALWAYS);
+        VBox.setVgrow(logsButton, Priority.ALWAYS);
+        VBox.setVgrow(openButton, Priority.ALWAYS);
 
         this.getChildren().add(menu); // Add the menu to the left side
 
         // Right side content
-        VBox rightSide = new VBox();
-        rightSide.setSpacing(10);
-        rightSide.setPadding(new Insets(10));
-        rightSide.setStyle("-fx-background-color: lightgray;");
+        contentPane = new VBox();
+        contentPane.setSpacing(10);
+        contentPane.setPadding(new Insets(10));
+        contentPane.setStyle("-fx-background-color: lightgray;");
 
         // Title
         final Text titleText = new Text("Members");
@@ -70,7 +76,7 @@ public class CRMView extends HBox {
         HBox buttonBox = new HBox(10); // Spacing between buttons
         buttonBox.getChildren().addAll(titleText, addMemberButton, updateMemberButton, deleteMemberButton);
 
-        rightSide.getChildren().add(buttonBox);
+        contentPane.getChildren().add(buttonBox);
 
         // Create and add the table
         table = new TableView<>();
@@ -83,11 +89,31 @@ public class CRMView extends HBox {
 
         table.getColumns().addAll(nameColumn, mobileColumn, emailColumn, roleColumn);
 
-        rightSide.getChildren().add(table);
+        contentPane.getChildren().add(table);
 
         // Add right side content to the HBox
-        this.getChildren().add(rightSide);
-        HBox.setHgrow(rightSide, Priority.ALWAYS);
+        this.getChildren().add(contentPane);
+        HBox.setHgrow(contentPane, Priority.ALWAYS);
+    }
+
+    public VBox getContentPane() {
+        return contentPane;
+    }
+
+    public Button getProfileButton() {
+        return profileButton;
+    }
+
+    public Button getRecordsButton() {
+        return recordsButton;
+    }
+
+    public Button getLogsButton() {
+        return logsButton;
+    }
+
+    public Button getOpenButton() {
+        return openButton;
     }
 
     public TableView<Member> getTable() {

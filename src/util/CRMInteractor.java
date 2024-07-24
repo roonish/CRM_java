@@ -1,7 +1,8 @@
-package application;
+package util;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Member;
 
 public class CRMInteractor {
     private ObservableList<Member> members;

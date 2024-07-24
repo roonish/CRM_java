@@ -1,33 +1,38 @@
-package application;
+package view;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
+import javafx.util.Pair;
+import model.Member;
 
 import java.util.Optional;
 
-public class UpdateMemberDialog {
+public class AddMemberView {
 
-    public static Optional<Member> showAndWait(Member member) {
+    public static Optional<Member> showAndWait() {
         Dialog<Member> dialog = new Dialog<>();
-        dialog.setTitle("Update Member");
+        dialog.setTitle("Add New Member");
 
-        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+        ButtonType addButtonType = new ButtonType("Add", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
 
-        // Create grid for member details
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField nameField = new TextField(member.getName());
-        TextField mobileField = new TextField(member.getMobile());
-        TextField emailField = new TextField(member.getEmail());
-        TextField roleField = new TextField(member.getRole());
+        TextField nameField = new TextField();
+        nameField.setPromptText("Name");
+        TextField mobileField = new TextField();
+        mobileField.setPromptText("Mobile");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email");
+        TextField roleField = new TextField();
+        roleField.setPromptText("Role");
 
         grid.add(new javafx.scene.control.Label("Name:"), 0, 0);
         grid.add(nameField, 1, 0);
@@ -41,7 +46,7 @@ public class UpdateMemberDialog {
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButtonType) {
+            if (dialogButton == addButtonType) {
                 return new Member(nameField.getText(), mobileField.getText(), emailField.getText(), roleField.getText());
             }
             return null;
