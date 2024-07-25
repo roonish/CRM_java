@@ -1,11 +1,13 @@
-package application;
+package controller;
 
 import java.util.Optional;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Member;
+import util.CRMInteractor;
+import view.*;
 
 public class CRMController {
     private CRMView view;
@@ -23,7 +25,7 @@ public class CRMController {
     }
 
     private void initializeUI() {
-        // Set up table and columns
+        // Initialize RecordsView
         TableView<Member> table = view.getTable();
         table.setItems(interactor.getMembers());
 
@@ -41,18 +43,44 @@ public class CRMController {
     }
 
     private void initializeActions() {
+        // Set actions to switch views
+        view.getProfileButton().setOnAction(event -> showProfileView());
+        view.getRecordsButton().setOnAction(event -> showRecordsView());
+        view.getLogsButton().setOnAction(event -> showLogsView());
+        view.getOpenButton().setOnAction(event -> showOpenView());
+
+        // Initialize member actions for RecordsView
         view.getAddMemberButton().setOnAction(event -> addNewMember());
         view.getUpdateMemberButton().setOnAction(event -> updateMember());
         view.getDeleteMemberButton().setOnAction(event -> deleteMember());
     }
-    
+
+    private void showProfileView() {
+        view.getContentPane().getChildren().clear();
+        view.getContentPane().getChildren().add(new ProfileView());
+    }
+
+    private void showRecordsView() {
+        view.getContentPane().getChildren().clear();
+        view.getContentPane().getChildren().add(view.getTable());
+    }
+
+    private void showLogsView() {
+        view.getContentPane().getChildren().clear();
+        view.getContentPane().getChildren().add(new LogsView());
+    }
+
+    private void showOpenView() {
+        view.getContentPane().getChildren().clear();
+        view.getContentPane().getChildren().add(new OpenView());
+    }
+
     private void addNewMember() {
         Optional<Member> result = AddMemberView.showAndWait();
         result.ifPresent(member -> {
             interactor.addMember(member);
         });
     }
-
 
     private void updateMember() {
         // Get the selected member from the table
@@ -92,5 +120,4 @@ public class CRMController {
 
         // Remove from the UI (the table will reflect changes due to being bound to the ObservableList)
     }
-
 }
