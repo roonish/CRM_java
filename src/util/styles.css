@@ -1,15 +1,15 @@
 .custom-menu-button {
-    -fx-background-color: blue;
+    -fx-background-color: #6A1B9A;
     -fx-text-fill: white;
     -fx-border: none;
     -fx-padding: 10px;
-    -fx-font-size: 14px; /* Adjust font size */
-    -fx-border-radius: 5px; /* Rounded corners */
-    -fx-cursor: hand; /* Pointer cursor on hover */
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
 }
 
 .custom-menu-button:hover {
-    -fx-background-color: lightblue;
+    -fx-background-color: #9C27B0;
 }
 
 .table-view {
@@ -18,10 +18,10 @@
 }
 
 .table-view .column-header-background {
-    -fx-background-color: lightblue;
+    -fx-background-color: #6A1B9A;
 }
 
 .table-view .column-header {
     -fx-font-weight: bold;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }

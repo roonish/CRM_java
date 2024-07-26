@@ -1,7 +1,6 @@
 package application;
 
-
-import controller.CRMController;
+import controller.LoginController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,8 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        CRMController controller = new CRMController();
-        Scene scene = new Scene(controller.getView(), 500, 400);
+        LoginController loginController = new LoginController(primaryStage);
+        Scene scene = new Scene(loginController.getView(), 600, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("CRM Application");
         primaryStage.show();
