@@ -1,4 +1,4 @@
-package view;
+package view.LogsView;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

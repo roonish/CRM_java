@@ -1,22 +1,20 @@
 package application;
 
-import controller.LoginController;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import controller.LoginController;
 
 public class Main extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            new LoginController(primaryStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        LoginController loginController = new LoginController(primaryStage);
-        Scene scene = new Scene(loginController.getView(), 600, 400);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("CRM Application");
-        primaryStage.show();
     }
 }
