@@ -1,4 +1,4 @@
-package view;
+package view.AuthenticationView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -1,4 +1,4 @@
-package view;
+package view.DashboardView;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;

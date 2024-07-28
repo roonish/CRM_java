@@ -2,7 +2,7 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.SignupView;
+import view.AuthenticationView.SignupView;
 
 public class SignupController {
     private SignupView view;

@@ -2,7 +2,7 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.LoginView;
+import view.AuthenticationView.LoginView;
 
 public class LoginController {
     private LoginView view;
@@ -31,13 +31,6 @@ public class LoginController {
         }
         System.out.println("Scene created");
 
-        // CSS application is now inline, so this is not needed
-        // String css = getClass().getResource("/style.css").toExternalForm();
-        // if (css == null) {
-        //     throw new NullPointerException("CSS not found");
-        // }
-        // scene.getStylesheets().add(css);
-        // System.out.println("CSS applied");
 
         stage.setScene(scene);
         stage.setTitle("Login");
@@ -58,10 +51,10 @@ public class LoginController {
         System.out.println("User logged in with email: " + email);
 
         // Navigate to the CRMView with a hardcoded user name for now
-        goToDashboard("Logged In User");
+        goToDashboard("Ronish");
     }
 
-    private void goToSignUp() {
+    private void goToSignUp() { 
         SignupController signUpController = new SignupController(stage);
         Scene scene = new Scene(signUpController.getView(), 600, 400);
         stage.setScene(scene);

@@ -6,6 +6,8 @@ import util.CRMInteractor;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import view.*;
+import view.DashboardView.SidebarView;
+import view.LogsView.LogsView;
 
 public class CRMController {
     private BorderPane view;

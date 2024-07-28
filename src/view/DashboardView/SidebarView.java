@@ -1,4 +1,4 @@
-package view;
+package view.DashboardView;
 
 import controller.CRMController;
 import javafx.geometry.Insets;

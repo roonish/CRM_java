@@ -19,14 +19,14 @@ import java.util.List;
 
 public class HomeView extends BorderPane {
     public HomeView(String userName) {
-        VBox content = new VBox(10);
-        content.setPadding(new Insets(10));
-        content.setAlignment(Pos.CENTER);
+        VBox content = new VBox(20); // Increased vertical spacing
+        content.setPadding(new Insets(20)); // Increased padding
 
         // Greeting
         Text greeting = new Text("Hello, " + userName);
-        greeting.setStyle("-fx-font-size: 18px;");
-
+        greeting.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
+        greeting.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+        
         // Sales Report
         Text salesReportTitle = new Text("Sales Report");
         salesReportTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -53,6 +53,12 @@ public class HomeView extends BorderPane {
         dataSeries.getData().add(new XYChart.Data<>("Sat", 40));
 
         salesChart.getData().add(dataSeries);
+
+        // Container for Sales Report
+        VBox salesContainer = new VBox(10);
+        salesContainer.setPadding(new Insets(20)); // Increased padding
+        salesContainer.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+        salesContainer.getChildren().addAll(salesReportTitle, salesChart);
 
         // Customer Moments
         Text customerMomentsTitle = new Text("Customer Moments");
@@ -109,7 +115,15 @@ public class HomeView extends BorderPane {
 
         customerMomentsTable.getColumns().addAll(customerColumn, enrolledColumn, ratingColumn, emailColumn);
 
-        content.getChildren().addAll(greeting, salesReportTitle, salesChart, customerMomentsTitle, customerMomentsTable);
+        // Container for Customer Moments
+        VBox customerMomentsContainer = new VBox(10);
+        customerMomentsContainer.setPadding(new Insets(20)); // Increased padding
+        customerMomentsContainer.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 8px; -fx-background-radius: 8px;");
+        customerMomentsContainer.getChildren().addAll(customerMomentsTitle, customerMomentsTable);
+
+        // Add everything to the main content
+        content.getChildren().addAll(greeting, salesContainer, customerMomentsContainer);
         setCenter(content);
     }
 }
+

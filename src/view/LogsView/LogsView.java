@@ -1,4 +1,4 @@
-package view;
+package view.LogsView;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
