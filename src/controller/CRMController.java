@@ -134,6 +134,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Member;
 import util.CRMInteractor;
 import view.*;
+<<<<<<< Updated upstream
+=======
+import view.DashboardView.SidebarView;
+import view.LogsView.LogsView;
+import view.RecordView.RecordView;
+>>>>>>> Stashed changes
 
 public class CRMController {
     private CRMView view;
@@ -196,9 +202,14 @@ public class CRMController {
         view.getContentPane().getChildren().addAll(view.getTable(), view.getAddMemberButton(), view.getUpdateMemberButton(), view.getDeleteMemberButton());
     }
 
+<<<<<<< Updated upstream
     private void showLogsView() {
         view.getContentPane().getChildren().clear();
         view.getContentPane().getChildren().add(new LogsView());
+=======
+    public void navigateToContacts() {
+        setView(new RecordView());
+>>>>>>> Stashed changes
     }
 
     private void showOpenView() {

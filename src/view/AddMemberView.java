@@ -6,7 +6,8 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
-import javafx.util.Pair;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import model.Member;
 
 import java.util.Optional;
@@ -20,10 +21,18 @@ public class AddMemberView {
         ButtonType addButtonType = new ButtonType("Add", ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
 
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #f5f5f5;"); // Matching the default theme
+
+        Text title = new Text("Add New Member");
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setPadding(new Insets(20));
+        grid.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 8px; -fx-background-radius: 8px;");
 
         TextField nameField = new TextField();
         nameField.setPromptText("Name");
@@ -43,7 +52,15 @@ public class AddMemberView {
         grid.add(new javafx.scene.control.Label("Role:"), 0, 3);
         grid.add(roleField, 1, 3);
 
-        dialog.getDialogPane().setContent(grid);
+        content.getChildren().addAll(title, grid);
+        dialog.getDialogPane().setContent(content);
+
+        dialog.getDialogPane().lookupButton(addButtonType).setStyle(
+            "-fx-background-color: #4A148C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px;"
+        );
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle(
+            "-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px;"
+        );
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {

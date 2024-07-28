@@ -1,11 +1,13 @@
 package view;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import model.Member;
 
 import java.util.Optional;
@@ -16,14 +18,21 @@ public class UpdateMemberDialog {
         Dialog<Member> dialog = new Dialog<>();
         dialog.setTitle("Update Member");
 
-        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+        ButtonType updateButtonType = new ButtonType("Update", ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
 
-        // Create grid for member details
+        VBox content = new VBox(20);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #f5f5f5;"); // Matching the default theme
+
+        Text title = new Text("Update Member");
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setPadding(new Insets(20));
+        grid.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 8px; -fx-background-radius: 8px;");
 
         TextField nameField = new TextField(member.getName());
         TextField mobileField = new TextField(member.getMobile());
@@ -39,7 +48,15 @@ public class UpdateMemberDialog {
         grid.add(new javafx.scene.control.Label("Role:"), 0, 3);
         grid.add(roleField, 1, 3);
 
-        dialog.getDialogPane().setContent(grid);
+        content.getChildren().addAll(title, grid);
+        dialog.getDialogPane().setContent(content);
+
+        dialog.getDialogPane().lookupButton(updateButtonType).setStyle(
+            "-fx-background-color: #4A148C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px;"
+        );
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setStyle(
+            "-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px;"
+        );
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButtonType) {

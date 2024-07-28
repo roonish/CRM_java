@@ -13,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class SignupView extends HBox {
+    private TextField fullNameField;
     private TextField emailField;
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
@@ -54,9 +55,15 @@ public class SignupView extends HBox {
         form.setHgap(10);
         form.setVgap(20);
 
+<<<<<<< Updated upstream:src/view/SignupView.java
         Label usernameLabel = new Label("Username");
         usernameField = new TextField();
         usernameField.setPromptText("Enter your username");
+=======
+        Label fullNameLabel = new Label("Full Name");
+        fullNameField = new TextField();
+        fullNameField.setPromptText("Enter your full name");
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
 
         Label emailLabel = new Label("Email");
         emailField = new TextField();
@@ -78,15 +85,24 @@ public class SignupView extends HBox {
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.getChildren().add(signUpButton);
 
+<<<<<<< Updated upstream:src/view/SignupView.java
         form.add(usernameLabel, 0, 0);
         form.add(usernameField, 1, 0);
+=======
+        form.add(fullNameLabel, 0, 0);
+        form.add(fullNameField, 1, 0);
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
         form.add(emailLabel, 0, 1);
         form.add(emailField, 1, 1);
         form.add(passwordLabel, 0, 2);
         form.add(passwordField, 1, 2);
+<<<<<<< Updated upstream:src/view/SignupView.java
         form.add(confirmPasswordLabel, 0, 3);
         form.add(confirmPasswordField, 1, 3);
         form.add(buttonBox, 1, 4);
+=======
+        form.add(buttonBox, 1, 3);
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
 
         rightSide.getChildren().addAll(signUpText, form);
 
@@ -94,6 +110,10 @@ public class SignupView extends HBox {
         this.getChildren().addAll(leftSide, rightSide);
         this.setStyle("-fx-background-color: white; -fx-border-color: #6A1B9A; -fx-border-width: 2px;");
         this.setPrefSize(600, 400);
+    }
+
+    public TextField getFullNameField() {
+        return fullNameField;
     }
 
     public TextField getEmailField() {
