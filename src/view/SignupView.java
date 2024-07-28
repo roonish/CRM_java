@@ -15,9 +15,8 @@ import javafx.scene.text.Text;
 public class SignupView extends HBox {
     private TextField emailField;
     private PasswordField passwordField;
-    private PasswordField confirmPasswordField;
-    private TextField usernameField;
     private Button signUpButton;
+    private Label loginLabel;
 
     public SignupView() {
         // Left side with purple background, logo, and title
@@ -54,10 +53,6 @@ public class SignupView extends HBox {
         form.setHgap(10);
         form.setVgap(20);
 
-        Label usernameLabel = new Label("Username");
-        usernameField = new TextField();
-        usernameField.setPromptText("Enter your username");
-
         Label emailLabel = new Label("Email");
         emailField = new TextField();
         emailField.setPromptText("Enter your email");
@@ -65,10 +60,6 @@ public class SignupView extends HBox {
         Label passwordLabel = new Label("Password");
         passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
-
-        Label confirmPasswordLabel = new Label("Confirm Password");
-        confirmPasswordField = new PasswordField();
-        confirmPasswordField.setPromptText("Confirm your password");
 
         signUpButton = new Button("Sign up");
         signUpButton.setStyle("-fx-background-color: #6A1B9A; -fx-text-fill: white;");
@@ -78,17 +69,16 @@ public class SignupView extends HBox {
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.getChildren().add(signUpButton);
 
-        form.add(usernameLabel, 0, 0);
-        form.add(usernameField, 1, 0);
-        form.add(emailLabel, 0, 1);
-        form.add(emailField, 1, 1);
-        form.add(passwordLabel, 0, 2);
-        form.add(passwordField, 1, 2);
-        form.add(confirmPasswordLabel, 0, 3);
-        form.add(confirmPasswordField, 1, 3);
-        form.add(buttonBox, 1, 4);
+        form.add(emailLabel, 0, 0);
+        form.add(emailField, 1, 0);
+        form.add(passwordLabel, 0, 1);
+        form.add(passwordField, 1, 1);
+        form.add(buttonBox, 1, 2);
 
-        rightSide.getChildren().addAll(signUpText, form);
+        loginLabel = new Label("Already have an account? Sign in");
+        loginLabel.setStyle("-fx-text-fill: #6A1B9A;");
+
+        rightSide.getChildren().addAll(signUpText, form, loginLabel);
 
         // Combine left and right sides
         this.getChildren().addAll(leftSide, rightSide);
@@ -104,15 +94,11 @@ public class SignupView extends HBox {
         return passwordField;
     }
 
-    public PasswordField getConfirmPasswordField() {
-        return confirmPasswordField;
-    }
-
-    public TextField getUsernameField() {
-        return usernameField;
-    }
-
     public Button getSignUpButton() {
         return signUpButton;
+    }
+
+    public Label getLoginLabel() {
+        return loginLabel;
     }
 }
