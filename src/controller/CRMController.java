@@ -139,6 +139,9 @@ import view.*;
 import view.DashboardView.SidebarView;
 import view.LogsView.LogsView;
 import view.RecordView.RecordView;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 public class CRMController {
@@ -209,6 +212,9 @@ public class CRMController {
 =======
     public void navigateToContacts() {
         setView(new RecordView());
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 

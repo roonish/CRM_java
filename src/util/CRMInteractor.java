@@ -17,6 +17,9 @@ public class CRMInteractor {
         );
 =======
         members = FXCollections.observableArrayList();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
@@ -29,6 +32,7 @@ public class CRMInteractor {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public void updateMember(Member oldMember, Member updatedMember) {
         int index = members.indexOf(oldMember);
         if (index != -1) {
@@ -40,6 +44,8 @@ public class CRMInteractor {
         members.remove(member);
     }
 =======
+=======
+>>>>>>> Stashed changes
     public void deleteMember(Member member) {
         members.remove(member);
     }
@@ -50,6 +56,9 @@ public class CRMInteractor {
             members.set(index, newMember);
         }
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

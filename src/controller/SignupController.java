@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import util.SignupInteractor;
 import view.LoginView;
 import view.SignupView;
@@ -10,6 +11,12 @@ import view.SignupView;
 public class SignupController {
     private SignupView view;
     private SignupInteractor interactor;
+=======
+import view.AuthenticationView.LoginView;
+import view.AuthenticationView.SignupView;
+
+public class SignupController {
+>>>>>>> Stashed changes
 =======
 import view.AuthenticationView.LoginView;
 import view.AuthenticationView.SignupView;
@@ -73,6 +80,7 @@ public class SignupController {
 
     private void goToSignIn() {
         LoginController loginController = new LoginController(stage);
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
     }
 
@@ -99,6 +107,8 @@ public class SignupController {
         LoginController loginController = new LoginController(stage);
         Scene scene = new Scene(loginController.getView(), 600, 400);
         stage.setScene(scene);
+=======
+>>>>>>> Stashed changes
     }
 }
 

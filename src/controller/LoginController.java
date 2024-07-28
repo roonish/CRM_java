@@ -58,6 +58,9 @@ import view.LoginView;
 =======
 import view.AuthenticationView.LoginView;
 import view.AuthenticationView.SignupView;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 public class LoginController {
@@ -111,6 +114,7 @@ public class LoginController {
         // Add login logic here
         System.out.println("User logged in with email: " + email);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         // For now, navigate to the CRMView with a hardcoded user name
         goToDashboard("Logged In User");
@@ -141,10 +145,25 @@ public class LoginController {
     }
 
     private void goToDashboard(String userName) {
+=======
+        
+        // If login is successful, navigate to the dashboard
+        goToDashboard(email);
+    }
+
+    private void goToSignUp() {
+        SignupController signupController = new SignupController(stage);
+    }
+
+    private void goToDashboard(String userName) {
+>>>>>>> Stashed changes
         CRMController crmController = new CRMController(stage, userName);
     }
 }
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

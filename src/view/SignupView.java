@@ -56,9 +56,15 @@ public class SignupView extends HBox {
         form.setVgap(20);
 
 <<<<<<< Updated upstream:src/view/SignupView.java
+<<<<<<< Updated upstream:src/view/SignupView.java
         Label usernameLabel = new Label("Username");
         usernameField = new TextField();
         usernameField.setPromptText("Enter your username");
+=======
+        Label fullNameLabel = new Label("Full Name");
+        fullNameField = new TextField();
+        fullNameField.setPromptText("Enter your full name");
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
 =======
         Label fullNameLabel = new Label("Full Name");
         fullNameField = new TextField();
@@ -86,8 +92,13 @@ public class SignupView extends HBox {
         buttonBox.getChildren().add(signUpButton);
 
 <<<<<<< Updated upstream:src/view/SignupView.java
+<<<<<<< Updated upstream:src/view/SignupView.java
         form.add(usernameLabel, 0, 0);
         form.add(usernameField, 1, 0);
+=======
+        form.add(fullNameLabel, 0, 0);
+        form.add(fullNameField, 1, 0);
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
 =======
         form.add(fullNameLabel, 0, 0);
         form.add(fullNameField, 1, 0);
@@ -97,9 +108,13 @@ public class SignupView extends HBox {
         form.add(passwordLabel, 0, 2);
         form.add(passwordField, 1, 2);
 <<<<<<< Updated upstream:src/view/SignupView.java
+<<<<<<< Updated upstream:src/view/SignupView.java
         form.add(confirmPasswordLabel, 0, 3);
         form.add(confirmPasswordField, 1, 3);
         form.add(buttonBox, 1, 4);
+=======
+        form.add(buttonBox, 1, 3);
+>>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
 =======
         form.add(buttonBox, 1, 3);
 >>>>>>> Stashed changes:src/view/AuthenticationView/SignupView.java
