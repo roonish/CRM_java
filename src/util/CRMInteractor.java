@@ -9,11 +9,24 @@ public class CRMInteractor {
 
     public CRMInteractor() {
         members = FXCollections.observableArrayList();
-        members.add(new Member("John Doe", "123-456-7890", "john@example.com", "Manager"));
-        members.add(new Member("Jane Smith", "234-567-8901", "jane@example.com", "Developer"));
     }
 
     public ObservableList<Member> getMembers() {
         return members;
+    }
+
+    public void addMember(Member member) {
+        members.add(member);
+    }
+
+    public void deleteMember(Member member) {
+        members.remove(member);
+    }
+
+    public void updateMember(Member oldMember, Member newMember) {
+        int index = members.indexOf(oldMember);
+        if (index >= 0) {
+            members.set(index, newMember);
+        }
     }
 }

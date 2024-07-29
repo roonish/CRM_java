@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
-import model.CustomerMoment;
+import model.CustomerDetail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +27,11 @@ public class HomeView extends BorderPane {
         greeting.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
         greeting.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
         
-        // Sales Report
+        // Sales Report Title
         Text salesReportTitle = new Text("Sales Report");
         salesReportTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         
+        // Sales Report Bar Chart
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Day of the Week");
 
@@ -60,34 +61,34 @@ public class HomeView extends BorderPane {
         salesContainer.setStyle("-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 8px; -fx-background-radius: 8px;");
         salesContainer.getChildren().addAll(salesReportTitle, salesChart);
 
-        // Customer Moments
+        // Customer Moments Title
         Text customerMomentsTitle = new Text("Customer Moments");
         customerMomentsTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         
         // Mock customer moments
-        List<CustomerMoment> customerMoments = Arrays.asList(
-                new CustomerMoment("John Doe", "01/01/2024", "5", "john.doe@example.com"),
-                new CustomerMoment("Jane Smith", "01/02/2024", "4", "jane.smith@example.com"),
-                new CustomerMoment("Bob Johnson", "01/03/2024", "3", "bob.johnson@example.com")
+        List<CustomerDetail> customerMoments = Arrays.asList(
+                new CustomerDetail("John Doe", "01/01/2024", "5", "john.doe@example.com"),
+                new CustomerDetail("Jane Smith", "01/02/2024", "4", "jane.smith@example.com"),
+                new CustomerDetail("Bob Johnson", "01/03/2024", "3", "bob.johnson@example.com")
         );
 
-        TableView<CustomerMoment> customerMomentsTable = new TableView<>();
+        TableView<CustomerDetail> customerMomentsTable = new TableView<>();
         customerMomentsTable.setItems(FXCollections.observableArrayList(customerMoments));
         customerMomentsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        TableColumn<CustomerMoment, String> customerColumn = new TableColumn<>("Customer");
+        TableColumn<CustomerDetail, String> customerColumn = new TableColumn<>("Customer");
         customerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
 
-        TableColumn<CustomerMoment, String> enrolledColumn = new TableColumn<>("Enrolled");
+        TableColumn<CustomerDetail, String> enrolledColumn = new TableColumn<>("Enrolled");
         enrolledColumn.setCellValueFactory(new PropertyValueFactory<>("enrolled"));
 
-        TableColumn<CustomerMoment, String> ratingColumn = new TableColumn<>("Rating");
+        TableColumn<CustomerDetail, String> ratingColumn = new TableColumn<>("Rating");
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
-        ratingColumn.setCellFactory(new Callback<TableColumn<CustomerMoment, String>, TableCell<CustomerMoment, String>>() {
+        ratingColumn.setCellFactory(new Callback<TableColumn<CustomerDetail, String>, TableCell<CustomerDetail, String>>() {
             @Override
-            public TableCell<CustomerMoment, String> call(TableColumn<CustomerMoment, String> param) {
-                return new TableCell<CustomerMoment, String>() {
+            public TableCell<CustomerDetail, String> call(TableColumn<CustomerDetail, String> param) {
+                return new TableCell<CustomerDetail, String>() {
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -110,7 +111,7 @@ public class HomeView extends BorderPane {
             }
         });
 
-        TableColumn<CustomerMoment, String> emailColumn = new TableColumn<>("Email");
+        TableColumn<CustomerDetail, String> emailColumn = new TableColumn<>("Email");
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         customerMomentsTable.getColumns().addAll(customerColumn, enrolledColumn, ratingColumn, emailColumn);
@@ -126,4 +127,5 @@ public class HomeView extends BorderPane {
         setCenter(content);
     }
 }
+
 

@@ -2,6 +2,7 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import view.AuthenticationView.LoginView;
 import view.AuthenticationView.SignupView;
 
 public class SignupController {
@@ -43,11 +44,12 @@ public class SignupController {
     }
 
     private void signUp() {
+        String fullName = view.getFullNameField().getText();
         String email = view.getEmailField().getText();
         String password = view.getPasswordField().getText();
 
         // Add sign-up logic here
-        System.out.println("User signed up with email: " + email);
+        System.out.println("User signed up with full name: " + fullName + ", email: " + email);
 
         // Navigate to the login view after successful sign-up
         goToSignIn();
@@ -55,8 +57,6 @@ public class SignupController {
 
     private void goToSignIn() {
         LoginController loginController = new LoginController(stage);
-        Scene scene = new Scene(loginController.getView(), 600, 400);
-        stage.setScene(scene);
     }
 
     public SignupView getView() {

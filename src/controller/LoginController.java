@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.AuthenticationView.LoginView;
+import view.AuthenticationView.SignupView;
 
 public class LoginController {
     private LoginView view;
@@ -31,7 +32,6 @@ public class LoginController {
         }
         System.out.println("Scene created");
 
-
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
@@ -51,20 +51,16 @@ public class LoginController {
         System.out.println("User logged in with email: " + email);
 
         // Navigate to the CRMView with a hardcoded user name for now
-        goToDashboard("Ronish");
+        goToDashboard("Logged In User");
     }
 
-    private void goToSignUp() { 
-        SignupController signUpController = new SignupController(stage);
-        Scene scene = new Scene(signUpController.getView(), 600, 400);
-        stage.setScene(scene);
+    private void goToSignUp() {
+        SignupController signupController = new SignupController(stage);
     }
 
     private void goToDashboard(String userName) {
+        // Initialize the CRMController with a new instance of BorderPane
         CRMController crmController = new CRMController(stage, userName);
-        Scene scene = new Scene(crmController.getView(), 800, 600);
-        stage.setScene(scene);
-        stage.setTitle("CRM Dashboard");
     }
 
     public LoginView getView() {

@@ -6,9 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import model.Appointment;
+import model.Appointments;
 
 import java.time.LocalDate;
 
@@ -24,8 +23,8 @@ public class AppointmentView extends VBox {
     private Button editAppointmentButton;
     private Button deleteAppointmentButton;
     private Button markCompletedButton;
-    private TableView<Appointment> appointmentTable;
-    private ObservableList<Appointment> appointments;
+    private TableView<Appointments> appointmentTable;
+    private ObservableList<Appointments> appointments;
 
     public AppointmentView() {
         this.setPadding(new Insets(20));
@@ -35,10 +34,14 @@ public class AppointmentView extends VBox {
         // Initialize appointments list
         appointments = FXCollections.observableArrayList();
 
-        // Form to add/edit appointment
+        // Title
+        Text title = new Text("Appointments");
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
+
+        // Form to add/edit Appointments
         GridPane formPane = new GridPane();
         formPane.setHgap(10);
-        formPane.setVgap(10);
+        formPane.setVgap(15); // Increased vertical gap between rows
         formPane.setPadding(new Insets(20));
         formPane.setStyle("-fx-background-color: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-border-color: lightgray;");
 
@@ -57,29 +60,51 @@ public class AppointmentView extends VBox {
         notesField = new TextArea();
         notesField.setPrefHeight(60);
 
-        // Adding form fields to the grid
+        // Set prompt text
+        datePicker.setPromptText("Select Date");
+        timePicker.setPromptText("Select Time");
+        clientNameField.setPromptText("Client Name");
+        emailField.setPromptText("Email Address");
+        phoneField.setPromptText("Phone Number");
+        appointmentTypeField.setPromptText("Select Type");
+        notesField.setPromptText("Additional Notes");
+
+        // Adding form fields to the grid with padding
         formPane.add(new Label("Date:"), 0, 0);
         formPane.add(datePicker, 1, 0);
+        GridPane.setMargin(datePicker, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
         formPane.add(new Label("Time:"), 0, 1);
         formPane.add(timePicker, 1, 1);
+        GridPane.setMargin(timePicker, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
         formPane.add(new Label("Client Name:"), 0, 2);
         formPane.add(clientNameField, 1, 2);
+        GridPane.setMargin(clientNameField, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
         formPane.add(new Label("Email:"), 0, 3);
         formPane.add(emailField, 1, 3);
+        GridPane.setMargin(emailField, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
         formPane.add(new Label("Phone:"), 0, 4);
         formPane.add(phoneField, 1, 4);
-        formPane.add(new Label("Appointment Type:"), 0, 5);
+        GridPane.setMargin(phoneField, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
+        formPane.add(new Label("Appointments Type:"), 0, 5);
         formPane.add(appointmentTypeField, 1, 5);
+        GridPane.setMargin(appointmentTypeField, new Insets(0, 0, 10, 0)); // Margin for spacing between fields
+
         formPane.add(new Label("Notes:"), 0, 6);
         formPane.add(notesField, 1, 6);
 
         // Button box
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(20, 0, 0, 0)); // Add top padding to the button box
 
-        addAppointmentButton = new Button("Add Appointment");
-        editAppointmentButton = new Button("Edit Appointment");
-        deleteAppointmentButton = new Button("Delete Appointment");
+        addAppointmentButton = new Button("Add Appointments");
+        editAppointmentButton = new Button("Edit Appointments");
+        deleteAppointmentButton = new Button("Delete Appointments");
         markCompletedButton = new Button("Mark as Completed");
 
         addAppointmentButton.setStyle("-fx-background-color: #6A1B9A; -fx-text-fill: white;");
@@ -94,14 +119,14 @@ public class AppointmentView extends VBox {
 
         // Table to display appointments
         appointmentTable = new TableView<>();
-        TableColumn<Appointment, String> dateColumn = new TableColumn<>("Date");
-        TableColumn<Appointment, String> timeColumn = new TableColumn<>("Time");
-        TableColumn<Appointment, String> clientNameColumn = new TableColumn<>("Client Name");
-        TableColumn<Appointment, String> emailColumn = new TableColumn<>("Email");
-        TableColumn<Appointment, String> phoneColumn = new TableColumn<>("Phone");
-        TableColumn<Appointment, String> typeColumn = new TableColumn<>("Type");
-        TableColumn<Appointment, String> notesColumn = new TableColumn<>("Notes");
-        TableColumn<Appointment, String> statusColumn = new TableColumn<>("Status");
+        TableColumn<Appointments, String> dateColumn = new TableColumn<>("Date");
+        TableColumn<Appointments, String> timeColumn = new TableColumn<>("Time");
+        TableColumn<Appointments, String> clientNameColumn = new TableColumn<>("Client Name");
+        TableColumn<Appointments, String> emailColumn = new TableColumn<>("Email");
+        TableColumn<Appointments, String> phoneColumn = new TableColumn<>("Phone");
+        TableColumn<Appointments, String> typeColumn = new TableColumn<>("Type");
+        TableColumn<Appointments, String> notesColumn = new TableColumn<>("Notes");
+        TableColumn<Appointments, String> statusColumn = new TableColumn<>("Status");
 
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
@@ -116,9 +141,9 @@ public class AppointmentView extends VBox {
         appointmentTable.setItems(appointments);
         appointmentTable.setStyle("-fx-background-color: white;");
 
-        this.getChildren().addAll(formPane, appointmentTable);
+        this.getChildren().addAll(title, formPane, appointmentTable);
 
-        // Add appointment action
+        // Add Appointments action
         addAppointmentButton.setOnAction(e -> {
             String date = datePicker.getValue() != null ? datePicker.getValue().toString() : "";
             String time = timePicker.getValue() != null ? timePicker.getValue() : "";
@@ -129,13 +154,22 @@ public class AppointmentView extends VBox {
             String notes = notesField.getText();
             String status = "Scheduled";
 
-            Appointment appointment = new Appointment(date, time, clientName, email, phone, appointmentType, notes, status);
-            appointments.add(appointment);
+            Appointments Appointments = new Appointments(date, time, clientName, email, phone, appointmentType, notes, status);
+            appointments.add(Appointments);
+
+            // Clear form fields after adding Appointments
+            datePicker.setValue(null);
+            timePicker.setValue(null);
+            clientNameField.clear();
+            emailField.clear();
+            phoneField.clear();
+            appointmentTypeField.setValue(null);
+            notesField.clear();
         });
 
-        // Edit appointment action
+        // Edit Appointments action
         editAppointmentButton.setOnAction(e -> {
-            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            Appointments selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
             if (selectedAppointment != null) {
                 selectedAppointment.setDate(datePicker.getValue() != null ? datePicker.getValue().toString() : "");
                 selectedAppointment.setTime(timePicker.getValue() != null ? timePicker.getValue() : "");
@@ -148,9 +182,9 @@ public class AppointmentView extends VBox {
             }
         });
 
-        // Delete appointment action
+        // Delete Appointments action
         deleteAppointmentButton.setOnAction(e -> {
-            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            Appointments selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
             if (selectedAppointment != null) {
                 appointments.remove(selectedAppointment);
             }
@@ -158,7 +192,7 @@ public class AppointmentView extends VBox {
 
         // Mark as completed action
         markCompletedButton.setOnAction(e -> {
-            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            Appointments selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
             if (selectedAppointment != null) {
                 selectedAppointment.setStatus("Completed");
                 appointmentTable.refresh();
@@ -179,4 +213,3 @@ public class AppointmentView extends VBox {
         });
     }
 }
-

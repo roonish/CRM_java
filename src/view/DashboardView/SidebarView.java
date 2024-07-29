@@ -11,7 +11,7 @@ public class SidebarView extends VBox {
     private Button homeButton;
     private Button logsButton;
     private Button appointmentButton;
-    private Button contactButton;
+    private Button salesRecordButton;
     private Button logoutButton;
     private CRMController controller;
 
@@ -37,9 +37,9 @@ public class SidebarView extends VBox {
         appointmentButton.setMaxWidth(Double.MAX_VALUE);
         appointmentButton.getStyleClass().add("custom-menu-button");
 
-        contactButton = new Button("Contact");
-        contactButton.setMaxWidth(Double.MAX_VALUE);
-        contactButton.getStyleClass().add("custom-menu-button");
+        salesRecordButton = new Button("Sales Report");
+        salesRecordButton.setMaxWidth(Double.MAX_VALUE);
+        salesRecordButton.getStyleClass().add("custom-menu-button");
 
         logoutButton = new Button("Logout");
         logoutButton.setMaxWidth(Double.MAX_VALUE);
@@ -48,10 +48,10 @@ public class SidebarView extends VBox {
         homeButton.setOnAction(e -> controller.navigateToHome());
         logsButton.setOnAction(e -> controller.navigateToLogs());
         appointmentButton.setOnAction(e -> controller.navigateToAppointments());
-        contactButton.setOnAction(e -> controller.navigateToContacts());
+        salesRecordButton.setOnAction(e -> controller.navigateToSalesRecord());
         logoutButton.setOnAction(e -> controller.logout());
 
-        this.getChildren().addAll(logo, homeButton, logsButton, appointmentButton, contactButton, logoutButton);
+        this.getChildren().addAll(logo, homeButton, logsButton, appointmentButton, salesRecordButton, logoutButton);
     }
 
     public Button getHomeButton() {
@@ -66,8 +66,8 @@ public class SidebarView extends VBox {
         return appointmentButton;
     }
 
-    public Button getContactButton() {
-        return contactButton;
+    public Button getSalesRecordButton() {
+        return salesRecordButton;
     }
 
     public Button getLogoutButton() {

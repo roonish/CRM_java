@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import view.*;
 import view.DashboardView.SidebarView;
 import view.LogsView.LogsView;
+import view.RecordView.RecordView;
 
 public class CRMController {
     private BorderPane view;
@@ -44,18 +45,19 @@ public class CRMController {
     }
 
     public void navigateToLogs() {
-        setView(new LogsView(new CRMInteractor())); 
+        setView(new LogsView(new CRMInteractor()));
     }
 
     public void navigateToAppointments() {
         setView(new AppointmentView());
     }
 
-    public void navigateToContacts() {
-        setView(new ContactView());
+    public void navigateToSalesRecord() {
+        setView(new RecordView());
     }
 
     public void logout() {
         new LoginController(stage);
     }
 }
+
