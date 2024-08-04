@@ -1,9 +1,12 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Appointments {
+    private final IntegerProperty id;
     private final StringProperty date;
     private final StringProperty time;
     private final StringProperty clientName;
@@ -13,7 +16,8 @@ public class Appointments {
     private final StringProperty notes;
     private final StringProperty status;
 
-    public Appointments(String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status) {
+    public Appointments(int id, String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status) {
+        this.id = new SimpleIntegerProperty(id);
         this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);
         this.clientName = new SimpleStringProperty(clientName);
@@ -24,7 +28,18 @@ public class Appointments {
         this.status = new SimpleStringProperty(status);
     }
 
-    // Getter and Setter methods for date
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
     public String getDate() {
         return date.get();
     }
@@ -37,7 +52,6 @@ public class Appointments {
         return date;
     }
 
-    // Getter and Setter methods for time
     public String getTime() {
         return time.get();
     }
@@ -50,7 +64,6 @@ public class Appointments {
         return time;
     }
 
-    // Getter and Setter methods for clientName
     public String getClientName() {
         return clientName.get();
     }
@@ -63,7 +76,6 @@ public class Appointments {
         return clientName;
     }
 
-    // Getter and Setter methods for email
     public String getEmail() {
         return email.get();
     }
@@ -76,7 +88,6 @@ public class Appointments {
         return email;
     }
 
-    // Getter and Setter methods for phone
     public String getPhone() {
         return phone.get();
     }
@@ -89,7 +100,6 @@ public class Appointments {
         return phone;
     }
 
-    // Getter and Setter methods for appointmentType
     public String getAppointmentType() {
         return appointmentType.get();
     }
@@ -102,7 +112,6 @@ public class Appointments {
         return appointmentType;
     }
 
-    // Getter and Setter methods for notes
     public String getNotes() {
         return notes.get();
     }
@@ -115,7 +124,6 @@ public class Appointments {
         return notes;
     }
 
-    // Getter and Setter methods for status
     public String getStatus() {
         return status.get();
     }
