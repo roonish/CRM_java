@@ -2,64 +2,82 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.AuthenticationView.LoginView;
+import util.SignupInteractor;
 import view.AuthenticationView.SignupView;
 
 public class SignupController {
     private SignupView view;
     private Stage stage;
+    private SignupInteractor signupInteractor;
 
     public SignupController(Stage stage) {
-        System.out.println("Initializing SignupController");
-
         this.stage = stage;
-        if (this.stage == null) {
-            throw new NullPointerException("Stage is null");
-        }
-        System.out.println("Stage initialized");
-
-        this.view = new SignupView(); // Ensure view is properly initialized
-        if (this.view == null) {
-            throw new NullPointerException("SignUpView is null");
-        }
-        System.out.println("SignUpView initialized");
+        this.view = new SignupView();
+        this.signupInteractor = new SignupInteractor();
 
         initializeActions();
 
         Scene scene = new Scene(view, 600, 400);
-        if (scene == null) {
-            throw new NullPointerException("Scene is null");
-        }
-        System.out.println("Scene created");
-
         stage.setScene(scene);
-        stage.setTitle("Sign Up");
-        stage.show();
-        System.out.println("Stage shown");
     }
 
     private void initializeActions() {
-        view.getSignUpButton().setOnAction(event -> signUp());
-        view.getLoginLabel().setOnMouseClicked(event -> goToSignIn());
+        view.getSignUpButton().setOnAction(e -> handleSignUp());
+        view.getLoginLabel().setOnMouseClicked(e -> showLoginView());
     }
 
-    private void signUp() {
+    private void handleSignUp() {
         String fullName = view.getFullNameField().getText();
         String email = view.getEmailField().getText();
         String password = view.getPasswordField().getText();
 
-        // Add sign-up logic here
-        System.out.println("User signed up with full name: " + fullName + ", email: " + email);
+        boolean isValid = true;
 
-        // Navigate to the login view after successful sign-up
-        goToSignIn();
+        // Validate full name
+        if (fullName.isEmpty()) {
+            view.getFullNameErrorLabel().setText("Full Name is required.");
+            view.getFullNameErrorLabel().setVisible(true);
+            isValid = false;
+        } else {
+            view.getFullNameErrorLabel().setVisible(false);
+        }
+
+        // Validate email
+        if (email.isEmpty() || !isValidEmail(email)) {
+            view.getEmailErrorLabel().setText(email.isEmpty() ? "Email is required." : "Invalid email format.");
+            view.getEmailErrorLabel().setVisible(true);
+            isValid = false;
+        } else {
+            view.getEmailErrorLabel().setVisible(false);
+        }
+
+        // Validate password
+        if (password.isEmpty() || password.length() < 6) {
+            view.getPasswordErrorLabel().setText(password.isEmpty() ? "Password is required." : "Password must be at least 6 characters.");
+            view.getPasswordErrorLabel().setVisible(true);
+            isValid = false;
+        } else {
+            view.getPasswordErrorLabel().setVisible(false);
+        }
+
+        if (isValid) {
+            boolean success = signupInteractor.signUp(fullName, email, password);
+
+            if (success) {
+                showLoginView();
+            } else {
+                // Handle sign-up failure (e.g., show a dialog or a message)
+                System.out.println("Sign up failed.");
+            }
+        }
     }
 
-    private void goToSignIn() {
-        LoginController loginController = new LoginController(stage);
+    private boolean isValidEmail(String email) {
+        // Basic email format validation
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
-    public SignupView getView() {
-        return view;
+    private void showLoginView() {
+        new LoginController(stage);
     }
 }

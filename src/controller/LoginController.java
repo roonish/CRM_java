@@ -2,68 +2,77 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import util.LoginInteractor;
 import view.AuthenticationView.LoginView;
-import view.AuthenticationView.SignupView;
 
 public class LoginController {
     private LoginView view;
     private Stage stage;
+    private LoginInteractor loginInteractor;
 
     public LoginController(Stage stage) {
-        System.out.println("Initializing LoginController");
-
         this.stage = stage;
-        if (this.stage == null) {
-            throw new NullPointerException("Stage is null");
-        }
-        System.out.println("Stage initialized");
-
-        this.view = new LoginView(); // Ensure view is properly initialized
-        if (this.view == null) {
-            throw new NullPointerException("LoginView is null");
-        }
-        System.out.println("LoginView initialized");
+        this.view = new LoginView();
+        this.loginInteractor = new LoginInteractor();
 
         initializeActions();
 
         Scene scene = new Scene(view, 600, 400);
-        if (scene == null) {
-            throw new NullPointerException("Scene is null");
-        }
-        System.out.println("Scene created");
-
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
-        System.out.println("Stage shown");
     }
 
     private void initializeActions() {
-        view.getLoginButton().setOnAction(event -> login());
-        view.getSignUpLabel().setOnMouseClicked(event -> goToSignUp());
+        view.getLoginButton().setOnAction(e -> handleLogin());
+        view.getSignUpLabel().setOnMouseClicked(e -> showSignupView());
     }
 
-    private void login() {
+    private void handleLogin() {
         String email = view.getEmailField().getText();
         String password = view.getPasswordField().getText();
 
-        // Add login logic here
-        System.out.println("User logged in with email: " + email);
+        boolean isValid = true;
 
-        // Navigate to the CRMView with a hardcoded user name for now
-        goToDashboard("Logged In User");
+        // Validate email
+        if (email.isEmpty() || !isValidEmail(email)) {
+            view.getEmailErrorLabel().setText(email.isEmpty() ? "Email is required." : "Invalid email format.");
+            view.getEmailErrorLabel().setVisible(true);
+            isValid = false;
+        } else {
+            view.getEmailErrorLabel().setVisible(false);
+        }
+
+        // Validate password
+        if (password.isEmpty() || password.length() < 6) {
+            view.getPasswordErrorLabel().setText(password.isEmpty() ? "Password is required." : "Password must be at least 6 characters.");
+            view.getPasswordErrorLabel().setVisible(true);
+            isValid = false;
+        } else {
+            view.getPasswordErrorLabel().setVisible(false);
+        }
+
+        if (isValid) {
+            boolean success = loginInteractor.authenticate(email, password);
+
+            if (success) {
+                showHomeView(email);
+            } else {
+                // Handle login failure (e.g., show a dialog or a message)
+            }
+        }
     }
 
-    private void goToSignUp() {
-        SignupController signupController = new SignupController(stage);
+    private boolean isValidEmail(String email) {
+        // Basic email format validation
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
-    private void goToDashboard(String userName) {
-        // Initialize the CRMController with a new instance of BorderPane
-        CRMController crmController = new CRMController(stage, userName);
+    private void showSignupView() {
+        new SignupController(stage);
     }
 
-    public LoginView getView() {
-        return view;
+    private void showHomeView(String userName) {
+    	new CRMController(stage, userName);
     }
 }

@@ -2,10 +2,7 @@ package view.AuthenticationView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -17,22 +14,24 @@ public class LoginView extends HBox {
     private PasswordField passwordField;
     private Button loginButton;
     private Label signUpLabel;
+    private Label emailErrorLabel;
+    private Label passwordErrorLabel;
 
     public LoginView() {
         // Left side with purple background, logo, and title
         VBox leftSide = new VBox(20);
         leftSide.setAlignment(Pos.CENTER);
         leftSide.setPrefWidth(300);
-        leftSide.setStyle("-fx-background-color: #6A1B9A;"); // Purple background
+        leftSide.setStyle("-fx-background-color: #6A1B9A;");
         leftSide.setPadding(new Insets(20));
 
-        Label logo = new Label("📝"); // Placeholder for logo, you can replace it with an ImageView if you have a logo image
+        Label logo = new Label("📝");
         logo.setStyle("-fx-font-size: 50px;");
 
         Text title = new Text("AceInvoice");
         title.setFill(Color.WHITE);
         title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        
+
         Text subtitle = new Text("Time Tracking and Invoicing");
         subtitle.setFill(Color.WHITE);
         subtitle.setFont(Font.font("Arial", 14));
@@ -51,36 +50,42 @@ public class LoginView extends HBox {
         GridPane form = new GridPane();
         form.setAlignment(Pos.CENTER);
         form.setHgap(10);
-        form.setVgap(20);
+        form.setVgap(10);
 
         Label emailLabel = new Label("Email");
         emailField = new TextField();
         emailField.setPromptText("Enter your email");
+        emailErrorLabel = new Label();
+        emailErrorLabel.setTextFill(Color.RED);
+        emailErrorLabel.setVisible(false);
 
         Label passwordLabel = new Label("Password");
         passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
+        passwordErrorLabel = new Label();
+        passwordErrorLabel.setTextFill(Color.RED);
+        passwordErrorLabel.setVisible(false);
 
         loginButton = new Button("Sign in");
         loginButton.setStyle("-fx-background-color: #6A1B9A; -fx-text-fill: white;");
 
-        // Align button to the right
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.getChildren().add(loginButton);
 
         form.add(emailLabel, 0, 0);
         form.add(emailField, 1, 0);
-        form.add(passwordLabel, 0, 1);
-        form.add(passwordField, 1, 1);
-        form.add(buttonBox, 1, 2);
+        form.add(emailErrorLabel, 1, 1);
+        form.add(passwordLabel, 0, 2);
+        form.add(passwordField, 1, 2);
+        form.add(passwordErrorLabel, 1, 3);
+        form.add(buttonBox, 1, 4);
 
         signUpLabel = new Label("Don't have an account? Sign up");
         signUpLabel.setStyle("-fx-text-fill: #6A1B9A;");
 
         rightSide.getChildren().addAll(signInText, form, signUpLabel);
 
-        // Combine left and right sides
         this.getChildren().addAll(leftSide, rightSide);
         this.setStyle("-fx-background-color: white; -fx-border-color: #6A1B9A; -fx-border-width: 2px;");
         this.setPrefSize(600, 400);
@@ -100,5 +105,13 @@ public class LoginView extends HBox {
 
     public Label getSignUpLabel() {
         return signUpLabel;
+    }
+
+    public Label getEmailErrorLabel() {
+        return emailErrorLabel;
+    }
+
+    public Label getPasswordErrorLabel() {
+        return passwordErrorLabel;
     }
 }
