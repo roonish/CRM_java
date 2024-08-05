@@ -23,4 +23,20 @@ public class LoginInteractor {
         }
         return false;
     }
+    
+    public String loadUserNameFromDatabase(String email) {
+        String query = "SELECT full_name FROM users WHERE email = ?";
+        try (Connection connection = Connectivity.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String fullname = resultSet.getString("full_name");
+                return fullname;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "User";
+    }
 }
