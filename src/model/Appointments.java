@@ -1,12 +1,9 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Appointments {
-    private final IntegerProperty id;
     private final StringProperty date;
     private final StringProperty time;
     private final StringProperty clientName;
@@ -16,8 +13,7 @@ public class Appointments {
     private final StringProperty notes;
     private final StringProperty status;
 
-    public Appointments(int id, String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status) {
-        this.id = new SimpleIntegerProperty(id);
+    public Appointments(String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status) {
         this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);
         this.clientName = new SimpleStringProperty(clientName);
@@ -26,18 +22,6 @@ public class Appointments {
         this.appointmentType = new SimpleStringProperty(appointmentType);
         this.notes = new SimpleStringProperty(notes);
         this.status = new SimpleStringProperty(status);
-    }
-
-    public int getId() {
-        return id.get();
-    }
-
-    public void setId(int id) {
-        this.id.set(id);
-    }
-
-    public IntegerProperty idProperty() {
-        return id;
     }
 
     public String getDate() {
