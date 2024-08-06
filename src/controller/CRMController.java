@@ -2,7 +2,8 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.CRMInteractor;
+import util.LogsInteractor;
+import util.RecordInteractor;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import view.*;
@@ -45,7 +46,7 @@ public class CRMController {
     }
 
     public void navigateToLogs() {
-        setView(new LogsView(new CRMInteractor()));
+        setView(new LogsView(new LogsInteractor()));
     }
 
     public void navigateToAppointments() {
@@ -53,7 +54,8 @@ public class CRMController {
     }
 
     public void navigateToSalesRecord() {
-        setView(new RecordView());
+        RecordInteractor interactor = new RecordInteractor();
+        setView(new RecordView(interactor));
     }
 
     public void logout() {

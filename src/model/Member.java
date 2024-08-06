@@ -8,7 +8,7 @@ public class Member {
     private final SimpleStringProperty email;
     private final SimpleStringProperty role;
 
-    public Member(String name, String mobile, String email,String role) {
+    public Member(String name, String mobile, String email, String role) {
         this.name = new SimpleStringProperty(name);
         this.mobile = new SimpleStringProperty(mobile);
         this.email = new SimpleStringProperty(email);
