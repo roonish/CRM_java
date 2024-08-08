@@ -1,4 +1,4 @@
-package view.LogsView;
+package view.EmployeeView;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;

@@ -2,13 +2,13 @@ package controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.LogsInteractor;
+import util.EmployeeLogsInteractor;
 import util.RecordInteractor;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import view.*;
 import view.DashboardView.SidebarView;
-import view.LogsView.LogsView;
+import view.EmployeeView.EmployeeView;
 import view.RecordView.RecordView;
 
 public class CRMController {
@@ -45,8 +45,8 @@ public class CRMController {
         setView(new HomeView(userName));
     }
 
-    public void navigateToLogs() {
-        setView(new LogsView(new LogsInteractor()));
+    public void navigateToEmployeeLogs() {
+        setView(new EmployeeView(new EmployeeLogsInteractor()));
     }
 
     public void navigateToAppointments() {
@@ -62,4 +62,3 @@ public class CRMController {
         new LoginController(stage);
     }
 }
-
