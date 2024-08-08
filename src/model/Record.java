@@ -4,18 +4,28 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Record {
+    private int id;
     private StringProperty date;
     private StringProperty customerName;
     private StringProperty productName;
     private StringProperty amount;
     private StringProperty notes;
 
-    public Record(String date, String customerName, String productName, String amount, String notes) {
+    public Record(int id, String date, String customerName, String productName, String amount, String notes) {
+        this.id = id;
         this.date = new SimpleStringProperty(date);
         this.customerName = new SimpleStringProperty(customerName);
         this.productName = new SimpleStringProperty(productName);
         this.amount = new SimpleStringProperty(amount);
         this.notes = new SimpleStringProperty(notes);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDate() {

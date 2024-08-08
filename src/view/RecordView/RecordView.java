@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import model.Record;
+import util.RecordInteractor;
 
 public class RecordView extends VBox {
     private DatePicker datePicker;
@@ -23,8 +24,11 @@ public class RecordView extends VBox {
     private Button deleteRecordButton;
     private TableView<Record> recordTable;
     private ObservableList<Record> records;
+    private RecordInteractor interactor;
 
-    public RecordView() {
+    public RecordView(RecordInteractor interactor) {
+        this.interactor = interactor;
+
         this.setPadding(new Insets(20));
         this.setSpacing(20); // Increased spacing between elements
         this.setStyle("-fx-background-color: #f0f0f0;");
@@ -134,7 +138,8 @@ public class RecordView extends VBox {
             String amount = amountField.getText();
             String notes = notesField.getText();
 
-            Record record = new Record(date, customerName, productName, amount, notes);
+            Record record = new Record(0, date, customerName, productName, amount, notes); // id will be set by the DB
+            interactor.addRecord(record);
             records.add(record);
             clearForm();
         });
@@ -143,11 +148,20 @@ public class RecordView extends VBox {
         editRecordButton.setOnAction(e -> {
             Record selectedRecord = recordTable.getSelectionModel().getSelectedItem();
             if (selectedRecord != null) {
-                selectedRecord.setDate(datePicker.getValue() != null ? datePicker.getValue().toString() : "");
-                selectedRecord.setCustomerName(customerNameField.getText());
-                selectedRecord.setProductName(productNameField.getText());
-                selectedRecord.setAmount(amountField.getText());
-                selectedRecord.setNotes(notesField.getText());
+                Record newRecord = new Record(
+                        selectedRecord.getId(),
+                        datePicker.getValue() != null ? datePicker.getValue().toString() : "",
+                        customerNameField.getText(),
+                        productNameField.getText(),
+                        amountField.getText(),
+                        notesField.getText()
+                );
+                interactor.updateRecord(selectedRecord, newRecord);
+                selectedRecord.setDate(newRecord.getDate());
+                selectedRecord.setCustomerName(newRecord.getCustomerName());
+                selectedRecord.setProductName(newRecord.getProductName());
+                selectedRecord.setAmount(newRecord.getAmount());
+                selectedRecord.setNotes(newRecord.getNotes());
                 recordTable.refresh();
                 clearForm();
             }
@@ -157,6 +171,7 @@ public class RecordView extends VBox {
         deleteRecordButton.setOnAction(e -> {
             Record selectedRecord = recordTable.getSelectionModel().getSelectedItem();
             if (selectedRecord != null) {
+                interactor.deleteRecord(selectedRecord);
                 records.remove(selectedRecord);
                 clearForm();
             }
@@ -172,6 +187,13 @@ public class RecordView extends VBox {
                 notesField.setText(newSelection.getNotes());
             }
         });
+
+        // Load records from database
+        loadRecordsFromDatabase();
+    }
+
+    private void loadRecordsFromDatabase() {
+        records.setAll(interactor.getRecords());
     }
 
     private void clearForm() {
