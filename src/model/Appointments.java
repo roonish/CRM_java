@@ -12,8 +12,10 @@ public class Appointments {
     private final StringProperty appointmentType;
     private final StringProperty notes;
     private final StringProperty status;
+    private final StringProperty assignedTo;  
 
-    public Appointments(String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status) {
+
+    public Appointments(String date, String time, String clientName, String email, String phone, String appointmentType, String notes, String status,String assignedTo) {
         this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);
         this.clientName = new SimpleStringProperty(clientName);
@@ -22,6 +24,7 @@ public class Appointments {
         this.appointmentType = new SimpleStringProperty(appointmentType);
         this.notes = new SimpleStringProperty(notes);
         this.status = new SimpleStringProperty(status);
+        this.assignedTo = new SimpleStringProperty(assignedTo);
     }
 
     public String getDate() {
@@ -118,5 +121,17 @@ public class Appointments {
 
     public StringProperty statusProperty() {
         return status;
+    }
+    
+    public String getAssignedTo() {
+        return assignedTo.get();
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo.set(assignedTo);
+    }
+
+    public StringProperty assignedToProperty() {
+        return assignedTo;
     }
 }

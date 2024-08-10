@@ -1,16 +1,28 @@
 package util;
 
+
 import model.Appointments;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import util.Connectivity;
 
+import java.lang.reflect.Type;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class AppointmentInteractor {
 
     public void addAppointment(Appointments appointment) {
-        String query = "INSERT INTO Appointments (date, time, clientName, email, phone, appointmentType, notes, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String assignedTo = findAssignedEmployee(appointment.getTime(), appointment.getDate());
+
+        String query = "INSERT INTO Appointments (date, time, clientName, email, phone, appointmentType, notes, status, assignedTo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Connectivity.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, appointment.getDate());
             stmt.setString(2, appointment.getTime());
@@ -20,10 +32,89 @@ public class AppointmentInteractor {
             stmt.setString(6, appointment.getAppointmentType());
             stmt.setString(7, appointment.getNotes());
             stmt.setString(8, appointment.getStatus());
+            stmt.setString(9, assignedTo); 
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    private String findAssignedEmployee(String appointmentTime, String appointmentDate) {
+        String assignedTo = "";
+        String query = "SELECT name, available_times FROM members";
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+
+        try (Connection conn = Connectivity.getConnection(); 
+             PreparedStatement stmt = conn.prepareStatement(query); 
+             ResultSet rs = stmt.executeQuery()) {
+
+            LocalTime appointmentLocalTime = LocalTime.parse(appointmentTime, timeFormatter);
+            LocalTime closestTime = null;
+            String closestEmployee = null;
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String availableTimesJson = rs.getString("available_times");
+
+                List<String> availableTimes = parseAvailableTimes(availableTimesJson);
+
+                for (String time : availableTimes) {
+                    try {
+                        LocalTime availableLocalTime = LocalTime.parse(time, timeFormatter);
+
+                        // Check if this employee is already assigned to an appointment at the same date and time
+                        if (!isEmployeeAlreadyAssigned(conn, name, appointmentTime, appointmentDate)) {
+                            if (availableLocalTime.equals(appointmentLocalTime)) {
+                                // Exact match found, return immediately
+                                return name;
+                            } else if (availableLocalTime.isAfter(appointmentLocalTime)) {
+                                if (closestTime == null || availableLocalTime.isBefore(closestTime)) {
+                                    closestEmployee = name;
+                                    closestTime = availableLocalTime;
+                                }
+                            }
+                        }
+                    } catch (DateTimeParseException e) {
+                        System.err.println("Failed to parse time: " + time);
+                    }
+                }
+            }
+
+            // If no exact match is found, return the closest available employee
+            if (closestEmployee != null) {
+                assignedTo = closestEmployee;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return assignedTo;
+    }
+
+    private boolean isEmployeeAlreadyAssigned(Connection conn, String employeeName, String appointmentTime, String appointmentDate) {
+        String query = "SELECT COUNT(*) FROM Appointments WHERE assignedTo = ? AND time = ? AND date = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, employeeName);
+            stmt.setString(2, appointmentTime);
+            stmt.setString(3, appointmentDate);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    private List<String> parseAvailableTimes(String availableTimesJson) {
+    	 Gson gson = new Gson();
+         Type listType = new TypeToken<List<String>>(){}.getType();
+         List<String> timeList =  gson.fromJson(availableTimesJson, listType);
+        
+        return timeList;
     }
 
     public void updateAppointment(Appointments appointment) {
@@ -71,7 +162,8 @@ public class AppointmentInteractor {
                     rs.getString("phone"),
                     rs.getString("appointmentType"),
                     rs.getString("notes"),
-                    rs.getString("status")
+                    rs.getString("status"),
+                    rs.getString("assignedTo")
                 );
                 appointments.add(appointment);
             }
