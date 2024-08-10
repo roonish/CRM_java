@@ -132,7 +132,8 @@ public class AppointmentView extends VBox {
         TableColumn<Appointments, String> typeColumn = new TableColumn<>("Appointment Type");
         TableColumn<Appointments, String> notesColumn = new TableColumn<>("Notes");
         TableColumn<Appointments, String> statusColumn = new TableColumn<>("Status");
-
+        TableColumn<Appointments, String> assignedToColumn = new TableColumn<>("Assigned To");
+        
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
         clientNameColumn.setCellValueFactory(cellData -> cellData.getValue().clientNameProperty());
@@ -141,8 +142,10 @@ public class AppointmentView extends VBox {
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().appointmentTypeProperty());
         notesColumn.setCellValueFactory(cellData -> cellData.getValue().notesProperty());
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        assignedToColumn.setCellValueFactory(cellData -> cellData.getValue().assignedToProperty());
 
-        appointmentTable.getColumns().addAll(dateColumn, timeColumn, clientNameColumn, emailColumn, phoneColumn, typeColumn, notesColumn, statusColumn);
+
+        appointmentTable.getColumns().addAll(dateColumn, timeColumn, clientNameColumn, emailColumn, phoneColumn, typeColumn, notesColumn, statusColumn,assignedToColumn);
         appointmentTable.setStyle("-fx-background-color: white;");
 
         this.getChildren().addAll(title, formPane, appointmentTable);
@@ -158,7 +161,7 @@ public class AppointmentView extends VBox {
             String notes = notesField.getText();
             String status = "Scheduled";
 
-            Appointments appointment = new Appointments(date, time, clientName, email, phone, appointmentType, notes, status);
+            Appointments appointment = new Appointments(date, time, clientName, email, phone, appointmentType, notes, status,"");
             interactor.addAppointment(appointment);
             appointments.add(appointment);
 
