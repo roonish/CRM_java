@@ -2,6 +2,8 @@ package util;
 
 
 import model.Appointments;
+import model.Employees;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import util.Connectivity;
@@ -16,6 +18,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import javafx.collections.ObservableList;
 
 public class AppointmentInteractor {
 
@@ -116,6 +120,67 @@ public class AppointmentInteractor {
         
         return timeList;
     }
+//    
+//    public boolean isTimeFullyBooked(String time, LocalDate date) {
+//        String query = "SELECT COUNT(DISTINCT assignedTo) FROM Appointments WHERE time = ? AND date = ?";
+//
+//        int numberOfAvailableEmployees = getNumberOfAvailableEmployees(time); 
+//
+//        try (Connection conn = Connectivity.getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(query)) {
+//            stmt.setString(1, time);
+//            stmt.setString(2, date.toString());
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                if (rs.next()) {
+//                    int assignedCount = rs.getInt(1);
+//                    return assignedCount >= numberOfAvailableEmployees;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
+
+    public boolean isTimeFullyBooked(String time, LocalDate date) {
+        String query = "SELECT COUNT(*) AS booked_count FROM Appointments a " +
+                       "JOIN Appointments ap ON a.appointmentID = ap.appointmentID " +
+                       "WHERE ap.date = ? AND ap.time = ?";
+        try (Connection conn = Connectivity.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, date.toString());
+            stmt.setString(2, time);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int bookedCount = rs.getInt("booked_count");
+                    return bookedCount > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private int getNumberOfAvailableEmployees(String requestedTime) {
+    	EmployeeLogsInteractor employeeLogsInteractor = new EmployeeLogsInteractor();
+        // Retrieve the list of all employees
+        ObservableList<Employees> employees = employeeLogsInteractor.getMembers();
+
+        // Count the number of employees available at the requested time
+        int availableCount = 0;
+        for (Employees employee : employees) {
+            List<String> availableTimes = employee.getAvailableTimes();
+            if (availableTimes.contains(requestedTime)) {
+                availableCount++;
+            }
+        }
+        return availableCount;
+    }
+
+
 
     public void updateAppointment(Appointments appointment) {
         String query = "UPDATE Appointments SET date = ?, time = ?, clientName = ?, email = ?, phone = ?, appointmentType = ?, notes = ?, status = ? WHERE date = ? AND time = ? AND clientName = ?";
