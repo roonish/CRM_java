@@ -1,5 +1,6 @@
 package view;
 
+import util.Connectivity;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,11 +14,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 import model.CustomerDetail;
-
+import model.Record; // Assuming you have a Record model
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import javafx.collections.ObservableList;
 
 public class HomeView extends BorderPane {
+    
     public HomeView(String userName) {
         VBox content = new VBox(20); // Increased vertical spacing
         content.setPadding(new Insets(20)); // Increased padding
@@ -33,10 +41,10 @@ public class HomeView extends BorderPane {
         
         // Sales Report Bar Chart
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Day of the Week");
+        xAxis.setLabel("Date");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Sales");
+        yAxis.setLabel("Amount");
 
         BarChart<String, Number> salesChart = new BarChart<>(xAxis, yAxis);
         salesChart.setTitle("Sales Report for the Week");
@@ -44,14 +52,12 @@ public class HomeView extends BorderPane {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
         dataSeries.setName("Sales");
 
-        // Mock sales data
-        dataSeries.getData().add(new XYChart.Data<>("Sun", 10));
-        dataSeries.getData().add(new XYChart.Data<>("Mon", 15));
-        dataSeries.getData().add(new XYChart.Data<>("Tue", 20));
-        dataSeries.getData().add(new XYChart.Data<>("Wed", 25));
-        dataSeries.getData().add(new XYChart.Data<>("Thu", 30));
-        dataSeries.getData().add(new XYChart.Data<>("Fri", 35));
-        dataSeries.getData().add(new XYChart.Data<>("Sat", 40));
+        // Fetch sales data from database
+        Map<String, Double> salesData = fetchSalesData();
+        
+        for (Map.Entry<String, Double> entry : salesData.entrySet()) {
+            dataSeries.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
 
         salesChart.getData().add(dataSeries);
 
@@ -126,6 +132,26 @@ public class HomeView extends BorderPane {
         content.getChildren().addAll(greeting, salesContainer, customerMomentsContainer);
         setCenter(content);
     }
+    
+    private Map<String, Double> fetchSalesData() {
+        Map<String, Double> salesData = new HashMap<>();
+        String query = "SELECT date, amount FROM records WHERE plan != 'N/A'";
+        
+        try (Connection conn = Connectivity.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                String date = rs.getString("date");
+                String amount = rs.getString("amount");
+                double amountdbl = Double.parseDouble(amount);
+                salesData.put(date, amountdbl);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return salesData;
+    }
 }
-
-

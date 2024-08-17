@@ -1,6 +1,7 @@
 package view;
 
 import util.AppointmentInteractor;
+import view.EmployeeView.ConfirmDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,6 +14,8 @@ import javafx.scene.text.Text;
 import model.Appointments;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppointmentView extends VBox {
     private DatePicker datePicker;
@@ -52,10 +55,18 @@ public class AppointmentView extends VBox {
 
         // Form fields
         datePicker = new DatePicker();
-        timePicker = new ComboBox<>(FXCollections.observableArrayList(
-                "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-                "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
-        ));
+     // Set listener for DatePicker to update available times when a date is selected
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            updateAvailableTimes(newValue);
+        });
+
+//        timePicker = new ComboBox<>(FXCollections.observableArrayList(
+//                "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+//                "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
+//        ));
+        timePicker = new ComboBox<>();
+        updateAvailableTimes(null);
+        
         clientNameField = new TextField();
         emailField = new TextField();
         phoneField = new TextField();
@@ -193,7 +204,7 @@ public class AppointmentView extends VBox {
         // Delete Appointment action
         deleteAppointmentButton.setOnAction(e -> {
             Appointments selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-            if (selectedAppointment != null) {
+            if (selectedAppointment != null && ConfirmDialog.show("Delete Appointment", "Are you sure you want to delete this appointment?")) {
                 interactor.deleteAppointment(selectedAppointment);
                 appointments.remove(selectedAppointment);
             }
@@ -226,6 +237,20 @@ public class AppointmentView extends VBox {
         
     }
     
+    private void updateAvailableTimes(LocalDate selectedDate) {
+        List<String> availableTimes = FXCollections.observableArrayList(
+            "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+            "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
+        );
+        timePicker.setItems(FXCollections.observableArrayList(availableTimes));
+    }
+
+
+    private boolean isFullyBooked(String time, LocalDate date) {
+        return interactor.isTimeFullyBooked(time, date);
+    }
+    
+    
     public void clearForm() {
    	 // Clear form fields after editing appointment
        datePicker.setValue(null);
@@ -237,6 +262,9 @@ public class AppointmentView extends VBox {
        notesField.clear();
    }
 }
+
+
+
 
 
 

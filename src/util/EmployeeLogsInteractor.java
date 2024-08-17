@@ -9,14 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//EmployeeLogsInteractor handles database interactions related to Employees.
+//It allows for retrieving, adding, updating, and deleting employee records.
 public class EmployeeLogsInteractor {
     private Connection connection;
-
+ // Constructor initializes the database connection
     public EmployeeLogsInteractor() {
         connection = Connectivity.getConnection();
     }
-
+    // Retrieves a list of all employee records from the database
     public ObservableList<Employees> getMembers() {
         ObservableList<Employees> members = FXCollections.observableArrayList();
         String query = "SELECT * FROM members";
