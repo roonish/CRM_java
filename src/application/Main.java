@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import controller.LoginController;
 
 public class Main extends Application {
+	//Overriding the start method,
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -14,6 +15,7 @@ public class Main extends Application {
         }
     }
 
+    // Main method to launch the JavaFX application
     public static void main(String[] args) {
         launch(args);
     }

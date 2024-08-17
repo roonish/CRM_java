@@ -32,7 +32,7 @@ public class CRMController {
         stage.setTitle("CRM Dashboard");
         stage.show();
     }
-
+    // Getter method for the main BorderPane view
     public BorderPane getView() {
         return view;
     }
@@ -57,7 +57,7 @@ public class CRMController {
         RecordInteractor interactor = new RecordInteractor();
         setView(new RecordView(interactor));
     }
-
+    // Handle user logout and navigate back to the Login screen
     public void logout() {
         new LoginController(stage);
     }

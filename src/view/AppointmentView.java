@@ -1,6 +1,7 @@
 package view;
 
 import util.AppointmentInteractor;
+import view.EmployeeView.ConfirmDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -203,7 +204,7 @@ public class AppointmentView extends VBox {
         // Delete Appointment action
         deleteAppointmentButton.setOnAction(e -> {
             Appointments selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-            if (selectedAppointment != null) {
+            if (selectedAppointment != null && ConfirmDialog.show("Delete Appointment", "Are you sure you want to delete this appointment?")) {
                 interactor.deleteAppointment(selectedAppointment);
                 appointments.remove(selectedAppointment);
             }
@@ -241,13 +242,6 @@ public class AppointmentView extends VBox {
             "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
             "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"
         );
-
-        if (selectedDate != null) {
-            // Filter out times where all employees are already assigned
-            availableTimes = availableTimes.stream()
-                .filter(time -> !isFullyBooked(time, selectedDate))
-                .collect(Collectors.toList());
-        }
         timePicker.setItems(FXCollections.observableArrayList(availableTimes));
     }
 
@@ -268,6 +262,9 @@ public class AppointmentView extends VBox {
        notesField.clear();
    }
 }
+
+
+
 
 
 

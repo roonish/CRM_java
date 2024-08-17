@@ -120,33 +120,11 @@ public class AppointmentInteractor {
         
         return timeList;
     }
-//    
-//    public boolean isTimeFullyBooked(String time, LocalDate date) {
-//        String query = "SELECT COUNT(DISTINCT assignedTo) FROM Appointments WHERE time = ? AND date = ?";
-//
-//        int numberOfAvailableEmployees = getNumberOfAvailableEmployees(time); 
-//
-//        try (Connection conn = Connectivity.getConnection();
-//             PreparedStatement stmt = conn.prepareStatement(query)) {
-//            stmt.setString(1, time);
-//            stmt.setString(2, date.toString());
-//            try (ResultSet rs = stmt.executeQuery()) {
-//                if (rs.next()) {
-//                    int assignedCount = rs.getInt(1);
-//                    return assignedCount >= numberOfAvailableEmployees;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return false;
-//    }
+
 
     public boolean isTimeFullyBooked(String time, LocalDate date) {
-        String query = "SELECT COUNT(*) AS booked_count FROM Appointments a " +
-                       "JOIN Appointments ap ON a.appointmentID = ap.appointmentID " +
-                       "WHERE ap.date = ? AND ap.time = ?";
+        String query = "SELECT COUNT(*) AS booked_count FROM Appointments " +
+                       "WHERE date = ? AND time = ?";
         try (Connection conn = Connectivity.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, date.toString());
@@ -163,6 +141,7 @@ public class AppointmentInteractor {
         }
         return false;
     }
+
 
     private int getNumberOfAvailableEmployees(String requestedTime) {
     	EmployeeLogsInteractor employeeLogsInteractor = new EmployeeLogsInteractor();
