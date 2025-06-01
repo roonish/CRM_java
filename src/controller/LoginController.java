@@ -1,7 +1,14 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Appointments;
+import util.Connectivity;
 import util.LoginInteractor;
 import view.AuthenticationView.LoginView;
 
@@ -56,7 +63,8 @@ public class LoginController {
             boolean success = loginInteractor.authenticate(email, password);
 
             if (success) {
-                showHomeView(email);
+            	String fullName = loginInteractor.loadUserNameFromDatabase(email);
+                showHomeView(fullName);
             } else {
                 // Handle login failure (e.g., show a dialog or a message)
             }
